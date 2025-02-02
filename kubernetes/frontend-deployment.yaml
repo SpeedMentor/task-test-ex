@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
+  labels:
+    app: frontend
 spec:
   replicas: 3
   selector:
@@ -17,3 +19,6 @@ spec:
           image: swr.ap-southeast-1.myhuaweicloud.com/<namespace>/frontend:latest
           ports:
             - containerPort: 80
+          env:
+            - name: NODE_ENV
+              value: "production"
