@@ -18,15 +18,25 @@ pipeline {
             }
         }
 
-        stage('Lint, Build, and Test') {
+        stage('Deploy Databases (MySQL & Redis)') {
+            steps {
+                script {
+                    sh './kubectl apply -f kubernetes/mysql-secret.yaml'
+                    sh './kubectl apply -f kubernetes/mysql-deployment.yaml'
+                    sh './kubectl apply -f kubernetes/mysql-service.yaml'
+                    sh './kubectl apply -f kubernetes/redis-deployment.yaml'
+                    sh './kubectl apply -f kubernetes/redis-service.yaml'
+                }
+            }
+        }
+
+        stage('Install Dependencies & Lint') {
             parallel {
                 stage('Frontend') {
                     steps {
                         dir('frontend') {
                             sh 'npm install'
                             sh 'npm run lint'
-                            sh 'npm run build'
-                            sh 'npm run test'
                         }
                     }
                 }
@@ -35,6 +45,25 @@ pipeline {
                         dir('backend') {
                             sh 'npm install'
                             sh 'npm run lint'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build & Test') {
+            parallel {
+                stage('Frontend Build & Test') {
+                    steps {
+                        dir('frontend') {
+                            sh 'npm run build'
+                            sh 'npm run test'
+                        }
+                    }
+                }
+                stage('Backend Test') {
+                    steps {
+                        dir('backend') {
                             sh 'npm run test'
                         }
                     }
@@ -42,16 +71,16 @@ pipeline {
             }
         }
 
-        stage('Build and Push Docker Images') {
+        stage('Build & Push Docker Images') {
             steps {
                 script {
                     sh 'docker login -u ${HUAWEI_ACCESS_KEY} -p ${HUAWEI_SECRET_KEY} swr.${HUAWEI_REGION}.myhuaweicloud.com'
                     parallel (
-                        "Frontend": {
+                        "Frontend Image": {
                             sh 'docker build -t ${FRONTEND_IMAGE} frontend'
                             sh 'docker push ${FRONTEND_IMAGE}'
                         },
-                        "Backend": {
+                        "Backend Image": {
                             sh 'docker build -t ${BACKEND_IMAGE} backend'
                             sh 'docker push ${BACKEND_IMAGE}'
                         }
@@ -68,12 +97,8 @@ pipeline {
                         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                         chmod +x kubectl
                         export KUBECONFIG=./kubeconfig
-                        ./kubectl config set-credentials huawei-user --token=${HUAWEI_ACCESS_KEY}
-                        ./kubectl config set-cluster huawei-cluster --server=https://${KUBE_CLUSTER_NAME}.cce.${HUAWEI_REGION}.myhuaweicloud.com
-                        ./kubectl config set-context huawei-context --cluster=huawei-cluster --user=huawei-user
-                        ./kubectl config use-context huawei-context
+                        ./kubectl apply -f kubernetes/
                     '''
-                    sh './kubectl apply -f kubernetes/'
                 }
             }
         }
@@ -81,10 +106,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo '❌ Pipeline failed!'
         }
     }
 }
