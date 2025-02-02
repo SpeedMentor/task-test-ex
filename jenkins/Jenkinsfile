@@ -1,0 +1,99 @@
+pipeline {
+    agent any
+
+    environment {
+        HUAWEI_ACCESS_KEY = credentials('HUAWEI_ACCESS_KEY')
+        HUAWEI_SECRET_KEY = credentials('HUAWEI_SECRET_KEY')
+        HUAWEI_REGION = 'ap-southeast-1'
+        FRONTEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/frontend:latest"
+        BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/backend:latest"
+        KUBE_CONFIG = credentials('KUBE_CONFIG')
+        KUBE_CLUSTER_NAME = 'microservices-cluster'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Set Up Node.js') {
+            steps {
+                nodejs(nodeJSInstallationName: 'Node16') {
+                    sh 'node --version'
+                    sh 'npm --version'
+                }
+            }
+        }
+
+        stage('Lint, Build, and Test') {
+            parallel {
+                stage('Frontend') {
+                    steps {
+                        dir('frontend') {
+                            sh 'npm install'
+                            sh 'npm run lint'
+                            sh 'npm run build'
+                            sh 'npm run test'
+                        }
+                    }
+                }
+                stage('Backend') {
+                    steps {
+                        dir('backend') {
+                            sh 'npm install'
+                            sh 'npm run lint'
+                            sh 'npm run test'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build and Push Docker Images') {
+            steps {
+                script {
+                    sh 'docker login -u ${HUAWEI_ACCESS_KEY} -p ${HUAWEI_SECRET_KEY} swr.${HUAWEI_REGION}.myhuaweicloud.com'
+                    parallel (
+                        "Frontend": {
+                            sh 'docker build -t ${FRONTEND_IMAGE} frontend'
+                            sh 'docker push ${FRONTEND_IMAGE}'
+                        },
+                        "Backend": {
+                            sh 'docker build -t ${BACKEND_IMAGE} backend'
+                            sh 'docker push ${BACKEND_IMAGE}'
+                        }
+                    )
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    writeFile file: 'kubeconfig', text: "${KUBE_CONFIG}"
+                    sh '''
+                        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                        chmod +x kubectl
+                        export KUBECONFIG=./kubeconfig
+                        ./kubectl config set-credentials huawei-user --token=${HUAWEI_ACCESS_KEY}
+                        ./kubectl config set-cluster huawei-cluster --server=https://${KUBE_CLUSTER_NAME}.cce.${HUAWEI_REGION}.myhuaweicloud.com
+                        ./kubectl config set-context huawei-context --cluster=huawei-cluster --user=huawei-user
+                        ./kubectl config use-context huawei-context
+                    '''
+                    sh './kubectl apply -f kubernetes/'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
