@@ -3,6 +3,6 @@ const dataController = require('../controllers/dataController');
 
 const router = express.Router();
 
-router.get('/', dataController.getData);
+router.get('/', dataController.getAllData);
 
 module.exports = router;
