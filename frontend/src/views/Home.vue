@@ -2,10 +2,11 @@
   <div class="home">
     <h1>Welcome to the Microservices App</h1>
     <button @click="fetchData">Fetch Data</button>
-    <div v-if="data">
-      <h2>Data from Backend:</h2>
-      <pre>{{ data }}</pre>
-    </div>
+    <p v-if="loading">Loading...</p>
+    <p v-if="error">Error: {{ error }}</p>
+    <ul v-if="data">
+      <li v-for="item in data" :key="item.id">{{ item.name }}</li>
+    </ul>
   </div>
 </template>
 
@@ -14,15 +15,24 @@ export default {
   data() {
     return {
       data: null,
+      loading: false,
+      error: null,
     };
   },
   methods: {
     async fetchData() {
+      this.loading = true;
+      this.error = null;
       try {
         const response = await fetch('http://<BACKEND_ENDPOINT>/api/data');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
         this.data = await response.json();
       } catch (error) {
-        console.error('Error fetching data:', error);
+        this.error = error.message;
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -31,6 +41,7 @@ export default {
 
 <style scoped>
 .home {
+  text-align: center;
   margin-top: 20px;
 }
 </style>
