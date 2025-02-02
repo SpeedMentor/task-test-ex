@@ -18,15 +18,6 @@ pipeline {
             }
         }
 
-        stage('Set Up Node.js') {
-            steps {
-                nodejs(nodeJSInstallationName: 'Node16') {
-                    sh 'node --version'
-                    sh 'npm --version'
-                }
-            }
-        }
-
         stage('Lint, Build, and Test') {
             parallel {
                 stage('Frontend') {
