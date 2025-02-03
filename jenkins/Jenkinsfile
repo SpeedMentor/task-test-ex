@@ -21,8 +21,8 @@ pipeline {
         stage('Deploy Databases (MySQL & Redis)') {
             steps {
                 script {
-                    sh './kubectl apply -f kubernetes/redis-deployment.yaml'
-                    sh './kubectl apply -f kubernetes/redis-service.yaml'
+                    sh 'kubectl apply -f kubernetes/redis-deployment.yaml'
+                    sh 'kubectl apply -f kubernetes/redis-service.yaml'
                 }
             }
         }
@@ -94,7 +94,7 @@ pipeline {
                         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
                         chmod +x kubectl
                         export KUBECONFIG=./kubeconfig
-                        ./kubectl apply -f kubernetes/
+                        kubectl apply -f kubernetes/
                     '''
                 }
             }
