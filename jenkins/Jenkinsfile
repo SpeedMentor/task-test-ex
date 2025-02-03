@@ -21,9 +21,6 @@ pipeline {
         stage('Deploy Databases (MySQL & Redis)') {
             steps {
                 script {
-                    sh './kubectl apply -f kubernetes/mysql-secret.yaml'
-                    sh './kubectl apply -f kubernetes/mysql-deployment.yaml'
-                    sh './kubectl apply -f kubernetes/mysql-service.yaml'
                     sh './kubectl apply -f kubernetes/redis-deployment.yaml'
                     sh './kubectl apply -f kubernetes/redis-service.yaml'
                 }
