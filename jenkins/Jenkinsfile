@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     sh 'rm -rf *  # Clear workspace to prevent conflicts'
-                    sh 'git clone https://github.com/your-username/your-repo.git .'
+                    sh 'git clone https://github.com/SpeedMentor/task-test-ex.git .'
                     sh 'git checkout main'
                 }
             }
