@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "lint": "eslint . --ext .js, .vue",
-    "lint:fix": "eslint . --ext .js, .vue --fix",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
     "test": "jest"
   },
   "dependencies": {
