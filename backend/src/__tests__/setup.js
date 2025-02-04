@@ -1,2 +1,2 @@
 // __tests__/setup.js
-require('dotenv').config({ path: '.env' }); // Load test environment variables
+require('dotenv').config({ path: '.env.test' }); // Load test environment variables
