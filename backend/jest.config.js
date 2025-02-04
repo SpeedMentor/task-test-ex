@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
 
   // Directories to look for test files
-  roots: ['<rootDir>/__tests__/setup.js'],
+  roots: ['<rootDir>/src/__tests__/'],
 
   // File extensions to consider for tests
   moduleFileExtensions: ['js', 'json'],
@@ -29,7 +29,7 @@ module.exports = {
   ],
 
   // Setup files to run before tests
-  setupFiles: ['<rootDir>/__tests__/setup.js'],
+  setupFiles: ['<rootDir>/src/__tests__/setup.js'],
 
   // Clear mocks before each test
   clearMocks: true,
