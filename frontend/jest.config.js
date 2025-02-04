@@ -1,8 +1,5 @@
 // jest.config.js
 export default {
-  // Use the Vue CLI Jest preset
-  preset: '@vue/cli-plugin-unit-jest',
-
   // Define where Jest should look for test files
   testMatch: ['**/__tests__/**/*.spec.[jt]s', '**/?(*.)+(spec|test).[jt]s'],
 
