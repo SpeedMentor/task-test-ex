@@ -11,17 +11,17 @@ pipeline {
         KUBE_CLUSTER_NAME = 'microservices-cluster'
     }
 
-    stage('Checkout') {
-        steps {
-            script {
-                sh '''
-                    rm -rf *  # Clear workspace to prevent conflicts
-                    git clone https://github.com/your-username/your-repo.git .
-                    git checkout main
-                '''
+        stage('Checkout') {
+            steps {
+                script {
+                    sh '''
+                        rm -rf *  # Clear workspace to prevent conflicts
+                        git clone https://github.com/your-username/your-repo.git .
+                        git checkout main
+                    '''
+                }
             }
         }
-    }
 
         stage('Deploy Databases (MySQL & Redis)') {
             steps {
