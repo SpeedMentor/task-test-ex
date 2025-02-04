@@ -8,7 +8,7 @@ export default {
 
   // Transform files using `vue-jest` and `babel-jest`
   transform: {
-    '^.+\\.vue$': 'vue-jest', // Transform Vue files
+    '^.+\\.vue$': '@vue/vue3-jest', // Transform Vue files
     '^.+\\.js$': 'babel-jest', // Transform JavaScript files
   },
 
