@@ -11,6 +11,4 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-//create connection olarak degis.
-
 module.exports = pool;
