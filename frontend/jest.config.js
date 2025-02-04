@@ -1,4 +1,5 @@
-module.exports = {
+// jest.config.js
+export default {
   // Use the Vue CLI Jest preset
   preset: '@vue/cli-plugin-unit-jest',
 
