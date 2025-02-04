@@ -40,7 +40,7 @@ pipeline {
                 stage('Backend') {
                     steps {
                         dir('backend') {
-                            sh 'npm install'
+                            sh 'npm install --legacy-peer-deps'
                             sh 'npm run lint'
                         }
                     }
