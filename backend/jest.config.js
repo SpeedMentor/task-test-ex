@@ -29,7 +29,7 @@ module.exports = {
   ],
 
   // Setup files to run before tests
-  setupFiles: ['<rootDir>/src/__tests__/setup.js'],
+  setupFiles: ['<rootDir>/src/setup.js'],
 
   // Clear mocks before each test
   clearMocks: true,
