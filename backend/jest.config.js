@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
 
   // Directories to look for test files
-  roots: ['<rootDir>/__tests__'],
+  roots: ['<rootDir>/__tests__/setup.js'],
 
   // File extensions to consider for tests
   moduleFileExtensions: ['js', 'json'],
