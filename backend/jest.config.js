@@ -16,7 +16,7 @@ module.exports = {
   // Mock static assets (e.g., CSS, images)
   moduleNameMapper: {
     '^.+\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
+    '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/src/__mocks__/fileMock.js',
   },
 
   // Collect code coverage
