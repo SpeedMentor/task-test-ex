@@ -16,9 +16,18 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sh 'rm -rf *  # Clear workspace to prevent conflicts'
-                    sh 'git clone https://github.com/SpeedMentor/task-test-ex.git .'
-                    sh 'git checkout main'
+                    sh '''
+                        if [ -d .git ]; then
+                            echo "Repository exists, pulling latest changes..."
+                            git reset --hard
+                            git clean -fd
+                            git pull origin main
+                        else
+                            echo "Repository not found, cloning..."
+                            git clone https://github.com/your-username/your-repo.git .
+                            git checkout main
+                        fi
+                    '''
                 }
             }
         }
