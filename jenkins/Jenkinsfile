@@ -56,7 +56,7 @@ pipeline {
                     steps {
                         dir('backend') {
                             sh 'npm install --legacy-peer-deps --force'
-                            sh 'npm install eslint-plugin-vue@latest esl t-plugin-node@latest eslint-plugin-import@latest --save-dev'
+                            sh 'npm install eslint-plugin-vue@latest eslint-plugin-node@latest eslint-plugin-import@latest --save-dev'
                             sh 'npm run lint || true'
                         }
                     }
