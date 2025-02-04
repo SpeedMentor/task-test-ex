@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Welcome to the Microservices App</h1>
+    <HelloWorld msg='Welcome To the Microservices App' />
     <button @click="fetchData">Fetch Data</button>
     <p v-if="loading">Loading...</p>
     <p v-if="error">Error: {{ error }}</p>
@@ -11,7 +11,12 @@
 </template>
 
 <script>
+import HelloWorld from '../components/HelloWorld.vue';
+
 export default {
+  components: {
+    HelloWorld
+  },
   data() {
     return {
       data: null,
@@ -42,6 +47,6 @@ export default {
 <style scoped>
 .home {
   text-align: center;
-  margin-top: 20px;
+  margin: 0 auto;
 }
 </style>
