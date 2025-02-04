@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // Test environment (Node.js for backend testing)
   testEnvironment: 'node',
 
