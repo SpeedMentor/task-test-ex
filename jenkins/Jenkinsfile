@@ -14,11 +14,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    sh '''
-                        rm -rf *  # Clear workspace to prevent conflicts
-                        git clone https://github.com/your-username/your-repo.git .
-                        git checkout main
-                    '''
+                    sh 'rm -rf *  # Clear workspace to prevent conflicts'
+                    sh 'git clone https://github.com/your-username/your-repo.git .'
+                    sh 'git checkout main'
                 }
             }
         }
