@@ -107,15 +107,32 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    writeFile file: 'kubeconfig', text: "${KUBE_CONFIG}"
-                    sh '''
-                        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-                        chmod +x kubectl
-                        export KUBECONFIG=./kubeconfig
-                        kubectl apply -f kubernetes/
-                    '''
+            stage('Deploy to Kubernetes') {
+                steps {
+                    script {
+                        // Inject the kubeconfig file as a temporary file
+                        withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG')]) {
+                            // Set the KUBECONFIG environment variable to the temporary file path
+                            env.KUBECONFIG = "${KUBECONFIG}"
+
+                            // Verify the kubeconfig file content
+                            sh '''
+                                echo "KUBECONFIG file path: ${KUBECONFIG}"
+                                echo "KUBECONFIG file content:"
+                                cat ${KUBECONFIG}
+                            '''
+
+                            // Check if the kubeconfig file is valid
+                            sh '''
+                                kubectl --kubeconfig=${KUBECONFIG} config view
+                            '''
+
+                            // Apply Kubernetes manifests
+                            sh '''
+                                kubectl apply -f kubernetes/
+                            '''
+                        }
+                    }
                 }
             }
         }
