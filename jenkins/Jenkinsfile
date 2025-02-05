@@ -9,7 +9,7 @@ pipeline {
         BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/backend:latest"
         KUBE_CONFIG = credentials('KUBE_CONFIG')
         KUBE_CLUSTER_NAME = 'cce-tf-test-cluster'
-        DOCKER_PW = credentials('DOCKER_PW')
+        DOCKER_PW = 61feba65491c2a60edac721e8fd7e1ea09e1d4bb14cc42a36e427423e5a1058c
     }
 
     stages {  // ✅ This block is required
