@@ -9,6 +9,7 @@ pipeline {
         BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/backend:latest"
         KUBE_CONFIG = credentials('KUBE_CONFIG')
         KUBE_CLUSTER_NAME = 'cce-tf-test-cluster'
+        DOCKER_USER = credentials('DOCKER_USER')
         DOCKER_PW = credentials('DOCKER_PW')
     }
 
@@ -86,7 +87,7 @@ pipeline {
         stage('Build & Push Docker Images') {
             steps {
                 script {
-                    sh 'docker login -u ${HUAWEI_REGION}@${HUAWEI_ACCESS_KEY} -p ${DOCKER_PW} swr.${HUAWEI_REGION}.myhuaweicloud.com'
+                    sh 'docker login -u ${DOCKER_USER} -p ${DOCKER_PW} swr.${HUAWEI_REGION}.myhuaweicloud.com'
                     parallel (
                         "Frontend Image": {
                             sh 'docker build -t ${FRONTEND_IMAGE} frontend'
