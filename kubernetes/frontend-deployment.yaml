@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: swr.ap-southeast-1.myhuaweicloud.com/<namespace>/frontend:latest
+          image: swr.tr-west-1.myhuaweicloud.com/cce/frontend:latest
           ports:
             - containerPort: 80
           env:
