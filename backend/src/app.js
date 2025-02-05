@@ -3,7 +3,7 @@ const cors = require('cors');
 const dataRoutes = require('./routes/dataRoutes');
 const app = express();
 
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 3000;
 
 
 // Middleware
