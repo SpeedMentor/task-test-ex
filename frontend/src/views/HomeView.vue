@@ -29,7 +29,7 @@ export default {
       this.loading = true;
       this.error = null;
       try {
-        const response = await fetch('http://<BACKEND_ENDPOINT>/api/data');
+        const response = await fetch('http://backend-service.default.svc.cluster.local/api/data');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
