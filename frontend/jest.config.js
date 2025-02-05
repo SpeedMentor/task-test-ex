@@ -1,5 +1,5 @@
 // jest.config.js
-module.exports = {
+export default {
   // Define where Jest should look for test files
   testMatch: ['**/__tests__/**/*.spec.[jt]s', '**/?(*.)+(spec|test).[jt]s'],
 
