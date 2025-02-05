@@ -1,6 +1,5 @@
-import Vuex from 'vuex';
-
-export default new Vuex.Store({
+import {createStore} from 'vuex'
+const store = createStore({
   state: {
     data: [],
     loading: false,
@@ -41,3 +40,5 @@ export default new Vuex.Store({
     },
   },
 });
+
+export default store
