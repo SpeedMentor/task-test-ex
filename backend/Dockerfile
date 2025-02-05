@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3004
 
 # Start the application
-CMD ["node", "src/server.js"]
+CMD ["node", "src/app.js"]
