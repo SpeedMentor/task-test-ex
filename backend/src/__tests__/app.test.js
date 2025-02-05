@@ -27,4 +27,30 @@ describe('Express App', () => {
         .spyOn(require('../models/dataModel'), 'getAllData')
         .mockRejectedValue(new Error('Database error'));
 
-      const response = await request(app
+      const response = await request(app).get('/api/data');
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toEqual({ message: 'Database error' });
+    });
+  });
+
+  // Test a non-existent route
+  test('GET /nonexistent-route should return 404', async () => {
+    const response = await request(app).get('/nonexistent-route');
+    expect(response.statusCode).toBe(404);
+  });
+
+  // Test CORS middleware
+  test('CORS middleware should be enabled', async () => {
+    const response = await request(app).get('/health');
+    expect(response.headers['access-control-allow-origin']).toBe('*');
+  });
+
+  // Test JSON middleware
+  test('JSON middleware should parse request body', async () => {
+    const response = await request(app)
+      .post('/api/data')
+      .send({ name: 'Test Data' })
+      .set('Content-Type', 'application/json');
+    expect(response.statusCode).not.toBe(400); // Ensure JSON parsing works
+  });
+});
