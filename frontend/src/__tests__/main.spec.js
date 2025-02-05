@@ -1,32 +1,41 @@
-import { createApp } from 'vue';
-import App from '@/App.vue';
-import router from '@/router';
-import store from '@/stores/store';
-
-// Mock the App component
-jest.mock('@/App.vue', () => ({
-  template: '<div id="app">Mocked App</div>',
+/* eslint-disable no-undef */
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { router } from "../router"
+import {store } from "../stores/store"
+// Mock the necessary modules
+vi.mock('./App.vue', () => ({
+  default: {
+    template: '<div id="app">Mocked App</div>',
+  },
+}));
+vi.mock('./router', () => ({
+  default: {
+    install: vi.fn(),
+  },
+}));
+vi.mock('./stores/store', () => ({
+  default: {
+    install: vi.fn(),
+  },
 }));
 
-// Mock the router and store
-jest.mock('@/router', () => ({
-  install: jest.fn(),
-}));
-jest.mock('@/stores/store', () => ({
-  install: jest.fn(),
-}));
+// Import the main.js file
+import '../main.js';
 
 describe('main.js', () => {
   let app;
 
   beforeEach(() => {
-    // Create a new app instance for each test
-    app = createApp(App);
+    // Re-import the createApp function to reset the state
+    const { createApp } = require('vue');
+    app = createApp({
+      template: '<div id="app">Mocked App</div>',
+    });
   });
 
   it('creates and mounts the app', () => {
     // Mock the mount function
-    const mountSpy = jest.spyOn(app, 'mount');
+    const mountSpy = vi.spyOn(app, 'mount');
 
     // Initialize the app
     app.use(router);
@@ -39,7 +48,7 @@ describe('main.js', () => {
 
   it('registers the router and store', () => {
     // Spy on the use method
-    const useSpy = jest.spyOn(app, 'use');
+    const useSpy = vi.spyOn(app, 'use');
 
     // Initialize the app
     app.use(router);
