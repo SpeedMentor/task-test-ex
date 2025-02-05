@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: swr.ap-southeast-1.myhuaweicloud.com/<namespace>/backend:latest
+          image: swr.tr-west-1.myhuaweicloud.com/cce/backend:latest
           ports:
             - containerPort: 3000
           env:
