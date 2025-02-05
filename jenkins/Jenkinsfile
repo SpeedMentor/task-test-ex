@@ -90,11 +90,11 @@ pipeline {
                     sh 'docker login -u tr-west-1@ZN5PYY1PVNVW5RSSE48R -p ${DOCKER_PW} swr.tr-west-1.myhuaweicloud.com'
                     parallel (
                         "Frontend Image": {
-                            sh 'docker build -t ${FRONTEND_IMAGE} -f /frontend/Dockerfile'
+                            sh 'docker build -t ${FRONTEND_IMAGE} -f /frontend/Dockerfile .'
                             sh 'docker push ${FRONTEND_IMAGE}'
                         },
                         "Backend Image": {
-                            sh 'docker build -t ${BACKEND_IMAGE} -f /backend/Dockerfile'
+                            sh 'docker build -t ${BACKEND_IMAGE} -f /backend/Dockerfile .'
                             sh 'docker push ${BACKEND_IMAGE}'
                         }
                     )
