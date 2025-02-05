@@ -5,8 +5,8 @@ pipeline {
         HUAWEI_ACCESS_KEY = credentials('HUAWEI_ACCESS_KEY')
         HUAWEI_SECRET_KEY = credentials('HUAWEI_SECRET_KEY')
         HUAWEI_REGION = 'tr-west-1'
-        FRONTEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/frontend:latest"
-        BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/backend:latest"
+        FRONTEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/cce/frontend:latest"
+        BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/cce/backend:latest"
         KUBE_CONFIG = credentials('KUBE_CONFIG')
         KUBE_CLUSTER_NAME = 'cce-tf-test-cluster'
         DOCKER_USER = credentials('DOCKER_USER')
