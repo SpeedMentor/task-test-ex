@@ -55,6 +55,11 @@ describe('Express App', () => {
       const response = await request(app).get('/api/data');
       expect(response.statusCode).toBe(500);
       expect(response.body).toEqual({ message: 'Database error' });
+
+      // Restore the original handler for subsequent tests
+      app.get('/api/data', (req, res) => {
+        res.status(200).json([{ id: 1, name: 'Test Data' }]);
+      });
     });
   });
 
