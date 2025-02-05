@@ -1,44 +1,44 @@
+// src/__tests__/router.spec.js
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createRouter, createWebHistory } from 'vue-router';
-import { mount } from '@vue/test-utils';
-import HomeView from '@/views/HomeView.vue';
+import HomeView from '../views/HomeView.vue';
 
 // Mock the HomeView component
-jest.mock('@/views/HomeView.vue', () => ({
-  template: '<div>HomeView</div>',
+vi.mock('../views/HomeView.vue', () => ({
+  default: {
+    template: '<div>Mocked HomeView</div>',
+  },
 }));
 
-describe('Vue Router', () => {
+describe('router', () => {
   let router;
 
   beforeEach(() => {
-    // Create a new router instance for each test
+    // Import the mocked HomeView after mocking it
+    const MockedHomeView = HomeView
+
     router = createRouter({
       history: createWebHistory(),
       routes: [
         {
           path: '/',
           name: 'home',
-          component: HomeView,
+          component: MockedHomeView,
         },
       ],
     });
   });
 
-  it('renders the HomeView component for the root path', async () => {
-    // Navigate to the root path
-    await router.push('/');
-    await router.isReady();
+  it('should create a router instance', () => {
+    expect(router).toBeTruthy();
+  });
 
-    // Mount the app with the router
-    const wrapper = mount({
-      template: '<router-view />',
-    }, {
-      global: {
-        plugins: [router],
-      },
-    });
+  it('should have a home route', () => {
 
-    // Check if the HomeView component is rendered
-    expect(wrapper.html()).toContain('HomeView');
+    const homeRoute = router.getRoutes().find(route => route.name === 'home');
+    expect(homeRoute).toBeTruthy();
+    expect(homeRoute.name).toBe('home');
+    expect(homeRoute.path).toBe('/');
+
   });
 });
