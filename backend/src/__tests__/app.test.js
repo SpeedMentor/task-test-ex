@@ -47,16 +47,19 @@ describe('Express App', () => {
     });
 
     test('should return 500 if an error occurs', async () => {
+      // Use Jest to spy on the route handler and simulate an error
       const originalHandler = app._router.stack.find(layer => layer.route && layer.route.path === '/api/data').route.stack[0].handle;
-      app.get('/api/data', (req, res, next) => {
+      const mockHandler = jest.fn((req, res, next) => {
         next(new Error('Database error'));
       });
+
+      app.get('/api/data', mockHandler);
 
       const response = await request(app).get('/api/data');
       expect(response.statusCode).toBe(500);
       expect(response.body).toEqual({ message: 'Database error' });
 
-      app.get('/api/data', originalHandler); // Restore original handler
+      app.get('/api/data', originalHandler); // Restore the original handler
     });
   });
 
