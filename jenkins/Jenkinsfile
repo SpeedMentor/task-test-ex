@@ -110,7 +110,7 @@ pipeline {
             steps {
                 script {
                     // Inject the kubeconfig file as a temporary file
-                    withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG')]) {
+                    withCredentials([file(credentialsId: 'KUBECONFIG', variable: 'KUBECONFIG')]) {
                         // Set the KUBECONFIG environment variable to the temporary file path
                         env.KUBECONFIG = "${KUBECONFIG}"
 
