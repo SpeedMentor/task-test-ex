@@ -1,7 +1,10 @@
-// __tests__/app.test.js
 const request = require('supertest');
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+
+// Use body-parser middleware
+app.use(bodyParser.json());
 
 // Mock the routes and middleware
 app.get('/health', (req, res) => {
@@ -10,6 +13,10 @@ app.get('/health', (req, res) => {
 
 app.get('/api/data', (req, res) => {
   res.status(200).json([{ id: 1, name: 'Test Data' }]);
+});
+
+app.post('/api/data', (req, res) => {
+  res.status(200).json(req.body);
 });
 
 app.use((req, res) => {
@@ -59,10 +66,6 @@ describe('Express App', () => {
 
   // Test JSON middleware
   test('JSON middleware should parse request body', async () => {
-    app.post('/api/data', (req, res) => {
-      res.status(200).json(req.body);
-    });
-
     const response = await request(app)
       .post('/api/data')
       .send({ name: 'Test Data' })
