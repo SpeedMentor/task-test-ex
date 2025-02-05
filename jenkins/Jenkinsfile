@@ -4,11 +4,12 @@ pipeline {
     environment {
         HUAWEI_ACCESS_KEY = credentials('HUAWEI_ACCESS_KEY')
         HUAWEI_SECRET_KEY = credentials('HUAWEI_SECRET_KEY')
-        HUAWEI_REGION = 'ap-southeast-1'
+        HUAWEI_REGION = 'tr-west-1'
         FRONTEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/frontend:latest"
         BACKEND_IMAGE = "swr.${HUAWEI_REGION}.myhuaweicloud.com/<namespace>/backend:latest"
         KUBE_CONFIG = credentials('KUBE_CONFIG')
-        KUBE_CLUSTER_NAME = 'microservices-cluster'
+        KUBE_CLUSTER_NAME = 'cce-tf-test-cluster'
+        DOCKER_PW = credentials('DOCKER_PW')
     }
 
     stages {  // ✅ This block is required
@@ -85,7 +86,7 @@ pipeline {
         stage('Build & Push Docker Images') {
             steps {
                 script {
-                    sh 'docker login -u ${HUAWEI_ACCESS_KEY} -p ${HUAWEI_SECRET_KEY} swr.${HUAWEI_REGION}.myhuaweicloud.com'
+                    sh 'docker login -u ${HUAWEI_ACCESS_KEY} -p ${DOCKER_PW} swr.${HUAWEI_REGION}.myhuaweicloud.com'
                     parallel (
                         "Frontend Image": {
                             sh 'docker build -t ${FRONTEND_IMAGE} frontend'
