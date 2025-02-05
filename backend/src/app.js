@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const dataRoutes = require('./src/routes/dataRoutes');
+const dataRoutes = require('./src/routes/dataRoutes.js');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
