@@ -47,7 +47,7 @@ describe('Express App', () => {
     });
 
     test('should return 500 if an error occurs', async () => {
-      // Mock an error in the route handler
+      const originalHandler = app._router.stack.find(layer => layer.route && layer.route.path === '/api/data').route.stack[0].handle;
       app.get('/api/data', (req, res, next) => {
         next(new Error('Database error'));
       });
@@ -56,10 +56,7 @@ describe('Express App', () => {
       expect(response.statusCode).toBe(500);
       expect(response.body).toEqual({ message: 'Database error' });
 
-      // Restore the original handler for subsequent tests
-      app.get('/api/data', (req, res) => {
-        res.status(200).json([{ id: 1, name: 'Test Data' }]);
-      });
+      app.get('/api/data', originalHandler); // Restore original handler
     });
   });
 
