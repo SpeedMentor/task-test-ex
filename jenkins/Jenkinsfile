@@ -68,7 +68,7 @@ pipeline {
                     steps {
                         dir('frontend') {
                             sh 'npm run build'
-                            sh 'npm run test'
+                            sh 'npm run test:unit'
                         }
                     }
                 }
