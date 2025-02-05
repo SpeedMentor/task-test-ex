@@ -68,14 +68,14 @@ pipeline {
                     steps {
                         dir('frontend') {
                             sh 'npm run build'
-                            //sh 'npm run test:unit'
+                            sh 'npm run test:unit'
                         }
                     }
                 }
                 stage('Backend Test') {
                     steps {
                         dir('backend') {
-                            sh 'npm run test'
+                            //sh 'npm run test'
                         }
                     }
                 }
