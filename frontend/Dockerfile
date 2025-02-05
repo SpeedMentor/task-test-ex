@@ -1,4 +1,4 @@
-# Use an official Node.js runtime as a parent image
+# Use Node.js 20 Alpine as the base image
 FROM node:20-alpine AS build-stage
 
 # Set the working directory
@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy package.json and install dependencies
 COPY package.json package-lock.json ./
-RUN npm install
+RUN rm -rf node_modules package-lock.json && npm install
 
 # Copy the rest of the application code
 COPY . .
