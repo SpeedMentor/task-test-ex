@@ -87,7 +87,7 @@ pipeline {
         stage('Build & Push Docker Images') {
             steps {
                 script {
-                    sh 'docker login -u ${DOCKER_USER} -p ${DOCKER_PW} swr.tr-west-1.myhuaweicloud.com'
+                    sh 'docker login -u tr-west-1@ZN5PYY1PVNVW5RSSE48R -p 61feba65491c2a60edac721e8fd7e1ea09e1d4bb14cc42a36e427423e5a1058c swr.tr-west-1.myhuaweicloud.com'
                     parallel (
                         "Frontend Image": {
                             sh 'docker build -t ${FRONTEND_IMAGE} frontend'
