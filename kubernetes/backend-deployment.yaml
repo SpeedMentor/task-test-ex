@@ -19,7 +19,6 @@ spec:
             - containerPort: 3000
           imagePullSecrets:
             - name: default-secret
-          schedulerName: default-scheduler
           env:
             - name: DB_HOST
               value: "mysql-service"
