@@ -19,8 +19,8 @@ spec:
           image: swr.tr-west-1.myhuaweicloud.com/cce/frontend:latest
           ports:
             - containerPort: 80
-          imagePullSecrets:
-            - name: default-secret
           env:
             - name: NODE_ENV
               value: "production"
+      imagePullSecrets:
+        - name: default-secret
