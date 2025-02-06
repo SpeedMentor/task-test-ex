@@ -21,7 +21,6 @@ spec:
             - containerPort: 80
           imagePullSecrets:
             - name: default-secret
-          schedulerName: default-scheduler
           env:
             - name: NODE_ENV
               value: "production"
