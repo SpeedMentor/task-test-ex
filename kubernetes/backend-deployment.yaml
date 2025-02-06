@@ -17,8 +17,6 @@ spec:
           image: swr.tr-west-1.myhuaweicloud.com/cce/backend:latest
           ports:
             - containerPort: 3000
-          imagePullSecrets:
-            - name: default-secret
           env:
             - name: DB_HOST
               value: "mysql-service"
@@ -38,5 +36,7 @@ spec:
               value: "redis-service"
             - name: REDIS_PORT
               value: "6379"
+        imagePullSecrets:
+          - name: default-secret
             - name: NODE_ENV
               value: "production"
