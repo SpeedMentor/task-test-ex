@@ -13,7 +13,7 @@ pipeline {
         DOCKER_PW = credentials('DOCKER_PW')
     }
 
-    stages {  // ✅ This block is required
+    stages {
 
         stage('Checkout') {
             steps {
@@ -109,24 +109,19 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Inject the kubeconfig file as a temporary file
                     withCredentials([file(credentialsId: 'KUBE_CONFIG', variable: 'KUBECONFIG')]) {
-                        // Set the KUBECONFIG environment variable to the temporary file path
                         env.KUBECONFIG = "${KUBECONFIG}"
 
-                        // Verify the kubeconfig file content
                         sh '''
                             echo "KUBECONFIG file path: ${KUBECONFIG}"
                             echo "KUBECONFIG file content:"
                             cat ${KUBECONFIG}
                         '''
 
-                        // Check if the kubeconfig file is valid
                         sh '''
                             kubectl --kubeconfig=${KUBECONFIG} config view
                         '''
 
-                        // Apply Kubernetes manifests
                         sh '''
                             kubectl apply -f kubernetes/
                         '''
@@ -134,7 +129,7 @@ pipeline {
                 }
             }
         }
-    } // ✅ Closing `stages {}` block here
+    }
 
     post {
         success {
