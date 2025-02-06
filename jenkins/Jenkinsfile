@@ -34,7 +34,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Databases (MySQL & Redis)') {
+        stage('Deploy Databases (Redis)') {
             steps {
                 script {
                     sh 'kubectl apply -f kubernetes/redis-deployment.yaml'
