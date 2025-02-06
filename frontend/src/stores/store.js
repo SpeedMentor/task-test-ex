@@ -26,7 +26,7 @@ const store = createStore({
       commit('setLoading', true);
       commit('setError', null);
       try {
-        const response = await fetch('http://10.247.254.159:3000/api/data');
+        const response = await fetch('http://backend-service:3000/api/data');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
