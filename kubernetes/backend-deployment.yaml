@@ -38,5 +38,5 @@ spec:
               value: "6379"
             - name: NODE_ENV
               value: "production"
-        imagePullSecrets:
-          - name: default-secret
+      imagePullSecrets:
+        - name: default-secret
