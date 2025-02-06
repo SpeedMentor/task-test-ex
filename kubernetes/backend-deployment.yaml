@@ -36,7 +36,7 @@ spec:
               value: "redis-service"
             - name: REDIS_PORT
               value: "6379"
-        imagePullSecrets:
-          - name: default-secret
             - name: NODE_ENV
               value: "production"
+        imagePullSecrets:
+          - name: default-secret
